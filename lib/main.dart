@@ -11,8 +11,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MyShop',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-        accentColor: Colors.deepOrange,
+        colorScheme:
+            ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(
+          secondary: Colors.deepOrange,
+        ),
       ),
       home: ProductsOverviewScreen(),
     );
