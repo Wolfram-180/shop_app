@@ -12,7 +12,7 @@ class ProductsOverviewScreen extends StatelessWidget {
       description: 'A red shirt - it is pretty red!',
       price: 29.99,
       imageUrl:
-          'https://shmultu.ru/wp-content/uploads/2021/12/file_177022Dec2021082405090232.jpg',
+          'https://sc02.alicdn.com/kf/H8be982659e7645e7aa9369dca8db18a0o.jpg',
     ),
     Product(
       id: 'p2',
@@ -20,7 +20,7 @@ class ProductsOverviewScreen extends StatelessWidget {
       description: 'A nice pair of trousers.',
       price: 59.99,
       imageUrl:
-          'https://shmultu.ru/wp-content/uploads/2021/12/file_176121Dec2021070345541816.jpg',
+          'https://ae01.alicdn.com/kf/Hc5d05efba5d6481aadc169ebb548b827z/Sexy-Low-Waist-Exotic-Latex-Leather-Pants-Zipper-Red-PU-Trousers-Lace-up-Hole-Dance-Bodycon.jpg_Q90.jpg_.webp',
     ),
     Product(
       id: 'p3',
@@ -28,7 +28,7 @@ class ProductsOverviewScreen extends StatelessWidget {
       description: 'Warm and cozy - exactly what you need for the winter.',
       price: 19.99,
       imageUrl:
-          'https://shmultu.ru/wp-content/uploads/2021/12/file_175921Dec2021052347931678.jpg',
+          'https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F33%2F44%2F33440a7876d046605062e5f608c2cf464198bd57.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bladies_accessories_hatsscarvesgloves_scarves%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]',
     ),
     Product(
       id: 'p4',
@@ -36,7 +36,7 @@ class ProductsOverviewScreen extends StatelessWidget {
       description: 'Prepare any meal you want.',
       price: 49.99,
       imageUrl:
-          'https://shmultu.ru/wp-content/uploads/2021/12/file_174118Dec2021003958419346.jpg',
+          'https://i.pinimg.com/236x/9d/86/4b/9d864b9b6b7cfd9825cc69e9be334bd9.jpg',
     ),
   ];
 
