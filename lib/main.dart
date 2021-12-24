@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(
           secondary: Colors.deepOrange,
         ),
+        fontFamily: 'Lato',
       ),
       home: ProductsOverviewScreen(),
     );
