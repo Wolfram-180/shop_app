@@ -3,6 +3,8 @@ import 'package:shop_app/screens/products_overview_screen.dart';
 
 //import 'screens/products_overview_screen.dart';
 
+import 'screens/product_detail_screen.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -18,20 +20,9 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Lato',
       ),
       home: ProductsOverviewScreen(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('MyShop'),
-      ),
-      body: Center(
-        child: Text('Let\'s build a shop!'),
-      ),
+      routes: {
+        ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+      },
     );
   }
 }
