@@ -53,10 +53,12 @@ class Products with ChangeNotifier {
 
   void showFavoritesOnly() {
     _showFavoritesOnly = true;
+    notifyListeners();
   }
 
   void showAll() {
     _showFavoritesOnly = false;
+    notifyListeners();
   }
 
   void addProduct() {
