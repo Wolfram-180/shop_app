@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/product.dart';
+import 'product.dart';
 
 class Products with ChangeNotifier {
   final List<Product> _items = [
@@ -10,7 +10,7 @@ class Products with ChangeNotifier {
       description: 'A red shirt - it is pretty red!',
       price: 29.99,
       imageUrl:
-          'https://sc02.alicdn.com/kf/H8be982659e7645e7aa9369dca8db18a0o.jpg',
+          'https://cdn.shopify.com/s/files/1/0533/6757/0604/products/1_6cacff69-18f1-4544-ba68-9092457ab351.jpg?v=1612360572',
     ),
     Product(
       id: 'p2',
