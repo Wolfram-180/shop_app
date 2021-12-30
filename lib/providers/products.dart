@@ -5,22 +5,6 @@ import 'product.dart';
 class Products with ChangeNotifier {
   final List<Product> _items = [
     Product(
-      id: 'p1',
-      title: 'Red Shirt',
-      description: 'A red shirt - it is pretty red!',
-      price: 29.99,
-      imageUrl:
-          'https://cdn.shopify.com/s/files/1/0533/6757/0604/products/1_6cacff69-18f1-4544-ba68-9092457ab351.jpg?v=1612360572',
-    ),
-    Product(
-      id: 'p2',
-      title: 'Trousers',
-      description: 'A nice pair of trousers.',
-      price: 59.99,
-      imageUrl:
-          'https://ae01.alicdn.com/kf/HTB1GqIczQCWBuNjy0Faq6xUlXXaj/FQLWL-Sexy-PU-Leather-Pants-Women-Trousers-Black-High-Waist-Pants-Female-Hip-Push-Up-Stretch.jpg',
-    ),
-    Product(
       id: 'p3',
       title: 'Yellow Scarf',
       description: 'Warm and cozy - exactly what you need for the winter.',
@@ -35,6 +19,22 @@ class Products with ChangeNotifier {
       price: 49.99,
       imageUrl:
           'https://i.pinimg.com/236x/9d/86/4b/9d864b9b6b7cfd9825cc69e9be334bd9.jpg',
+    ),
+    Product(
+      id: 'p1',
+      title: 'Red Shirt',
+      description: 'A red shirt - it is pretty red!',
+      price: 29.99,
+      imageUrl:
+          'https://cdn.shopify.com/s/files/1/0533/6757/0604/products/1_6cacff69-18f1-4544-ba68-9092457ab351.jpg?v=1612360572',
+    ),
+    Product(
+      id: 'p2',
+      title: 'Trousers',
+      description: 'A nice pair of trousers.',
+      price: 59.99,
+      imageUrl:
+          'https://ae01.alicdn.com/kf/HTB1GqIczQCWBuNjy0Faq6xUlXXaj/FQLWL-Sexy-PU-Leather-Pants-Women-Trousers-Black-High-Waist-Pants-Female-Hip-Push-Up-Stretch.jpg',
     ),
   ];
 

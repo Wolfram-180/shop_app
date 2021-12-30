@@ -48,6 +48,7 @@ class ProductItem extends StatelessWidget {
                 product.price,
                 product.title,
               );
+              Scaffold.of(context).showSnackBar(snackbar);
             },
             color: Theme.of(context).colorScheme.secondary,
           ),
