@@ -48,7 +48,19 @@ class ProductItem extends StatelessWidget {
                 product.price,
                 product.title,
               );
-              Scaffold.of(context).showSnackBar(snackbar);
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Added item to cart!',
+                    // textAlign: TextAlign.center,
+                  ),
+                  duration: Duration(seconds: 3),
+                  action: SnackBarAction(
+                    label: 'UNDO',
+                    onPressed: () {},
+                  ),
+                ),
+              );
             },
             color: Theme.of(context).colorScheme.secondary,
           ),
