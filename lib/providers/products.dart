@@ -18,7 +18,7 @@ class Products with ChangeNotifier {
       description: 'Prepare any meal you want.',
       price: 49.99,
       imageUrl:
-          'https://i.pinimg.com/236x/9d/86/4b/9d864b9b6b7cfd9825cc69e9be334bd9.jpg',
+          'https://image.shutterstock.com/image-photo/black-fry-pan-over-white-260nw-750875404.jpg',
     ),
     Product(
       id: 'p1',
