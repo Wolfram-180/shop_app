@@ -40,8 +40,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit == true) {
-      final productId = ModalRoute.of(context)?.settings.arguments as String;
-      if (productId != null) {
+      final productId = (ModalRoute.of(context)?.settings.arguments == null
+          ? 'null'
+          : ModalRoute.of(context)?.settings.arguments as String);
+      if (productId != 'null') {
         _editedProduct =
             Provider.of<Products>(context, listen: false).findById(productId);
         _initValues = {
@@ -77,7 +79,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     final isValid = _form.currentState?.validate();
     if (isValid == true) {
       _form.currentState?.save();
-      if (_editedProduct != null) {
+      if (_editedProduct.id != 'null') {
         Provider.of<Products>(context, listen: false)
             .updateProduct(_editedProduct.id, _editedProduct);
       } else {
