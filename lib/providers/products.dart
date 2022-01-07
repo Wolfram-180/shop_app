@@ -180,12 +180,12 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  void addProduct(Product product) {
+  Future<void> addProduct(Product product) async {
     var url = Uri.https(
       'shop-app-47fff-default-rtdb.europe-west1.firebasedatabase.app',
       '/products.json',
     );
-    http
+    return http
         .post(
       url,
       body: json.encode(
@@ -209,6 +209,7 @@ class Products with ChangeNotifier {
       _items.add(newProduct); // at the end of the list
       //_items.insert(0, newProduct); // at beginning of the list
       notifyListeners();
+      //return Future.value();
     });
   }
 
