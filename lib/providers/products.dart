@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'product.dart';
 
@@ -177,27 +180,36 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  // void showFavoritesOnly() {
-  //   _showFavoritesOnly = true;
-  //   notifyListeners();
-  // }
-  //
-  // void showAll() {
-  //   _showFavoritesOnly = false;
-  //   notifyListeners();
-  // }
-
   void addProduct(Product product) {
-    final newProduct = Product(
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      imageUrl: product.imageUrl,
-      id: DateTime.now().toString(),
+    var url = Uri.https(
+      'shop-app-47fff-default-rtdb.europe-west1.firebasedatabase.app',
+      '/products.json',
     );
-    _items.add(newProduct); // at the end of the list
-    //_items.insert(0, newProduct); // at beginning of the list
-    notifyListeners();
+    http
+        .post(
+      url,
+      body: json.encode(
+        {
+          'title': product.title,
+          'description': product.description,
+          'imageUrl': product.imageUrl,
+          'price': product.price,
+          'isFavorite': product.isFavorite,
+        },
+      ),
+    )
+        .then((response) {
+      final newProduct = Product(
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        id: json.decode(response.body)['name'],
+      );
+      _items.add(newProduct); // at the end of the list
+      //_items.insert(0, newProduct); // at beginning of the list
+      notifyListeners();
+    });
   }
 
   void updateProduct(String id, Product newProduct) {
@@ -212,4 +224,14 @@ class Products with ChangeNotifier {
     _items.removeWhere((prod) => prod.id == id);
     notifyListeners();
   }
+
+// void showFavoritesOnly() {
+//   _showFavoritesOnly = true;
+//   notifyListeners();
+// }
+//
+// void showAll() {
+//   _showFavoritesOnly = false;
+//   notifyListeners();
+// }
 }
