@@ -198,19 +198,25 @@ class Products with ChangeNotifier {
         },
       ),
     )
-        .then((response) {
-      final newProduct = Product(
-        title: product.title,
-        description: product.description,
-        price: product.price,
-        imageUrl: product.imageUrl,
-        id: json.decode(response.body)['name'],
-      );
-      _items.add(newProduct); // at the end of the list
-      //_items.insert(0, newProduct); // at beginning of the list
-      notifyListeners();
-      //return Future.value();
-    });
+        .then(
+      (response) {
+        final newProduct = Product(
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl,
+          id: json.decode(response.body)['name'],
+        );
+        _items.add(newProduct); // at the end of the list
+        //_items.insert(0, newProduct); // at beginning of the list
+        notifyListeners();
+        //return Future.value();
+      },
+    ).catchError(
+      (error) {
+        throw error;
+      },
+    );
   }
 
   void updateProduct(String id, Product newProduct) {
