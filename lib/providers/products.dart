@@ -7,7 +7,7 @@ import '../models/http_exception.dart';
 import 'product.dart';
 
 class Products with ChangeNotifier {
-  String serverUrl =
+  static String serverUrl =
       'shop-app-47fff-default-rtdb.europe-west1.firebasedatabase.app';
   late List<Product> _items = [
     // Product(
