@@ -4,6 +4,7 @@ import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/widgets/app_drawer.dart';
 import 'package:shop_app/widgets/badge.dart';
 
+import '../providers/products.dart';
 import '../widgets/products_grid.dart';
 import 'cart_screen.dart';
 
@@ -19,6 +20,38 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   bool _showOnlyFavorites = false;
+  var _isInit = true;
+
+  @override
+  void initState() {
+    // different variants:
+    // var 1 - calling WITH listen: false - as context is not available
+    // commented to show workaround
+    // however workaround needed only if NO context
+    // AND listen: false not possible (need to listen)
+    //Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+
+    // var 2
+    // also works, but better use didChangeDependencies
+    // because in that case fetchAndSetProducts is treated as async and
+    // execution postponed => slowed
+    // Future.delayed(Duration.zero).then((_) {
+    //   Provider.of<Products>(context).fetchAndSetProducts();
+    // });
+
+    // var 3 - didChangeDependencies below
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit == true) {
+      Provider.of<Products>(context).fetchAndSetProducts();
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
