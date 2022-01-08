@@ -64,11 +64,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
   void _updateImageUrl() {
     if (!_imageUrlFocusNode.hasFocus) {
       if ((_imageUrlController.text.isEmpty) ||
-          (!_imageUrlController.text.startsWith('http') &&
-              !_imageUrlController.text.startsWith('https')) ||
-          (!_imageUrlController.text.endsWith('.png') &&
-              !_imageUrlController.text.endsWith('.jpg') &&
-              !_imageUrlController.text.endsWith('.jpeg'))) {
+              (!_imageUrlController.text.startsWith('http') &&
+                  !_imageUrlController.text.startsWith('https'))
+          // todo: temp disable, return back
+          // || (!_imageUrlController.text.endsWith('.png') &&
+          //     !_imageUrlController.text.endsWith('.jpg') &&
+          //     !_imageUrlController.text.endsWith('.jpeg'))
+          ) {
         return;
       }
 
@@ -289,11 +291,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   !value.startsWith('https')) {
                                 return 'Please enter a valid URL.';
                               }
-                              if (!value.endsWith('.png') &&
-                                  !value.endsWith('.jpg') &&
-                                  !value.endsWith('.jpeg')) {
-                                return 'Please enter a valid image URL.';
-                              }
+                              // todo: temp disable, return back
+                              // if (!value.endsWith('.png') &&
+                              //     !value.endsWith('.jpg') &&
+                              //     !value.endsWith('.jpeg')) {
+                              //   return 'Please enter a valid image URL.';
+                              // }
                               return null;
                             },
                           ),

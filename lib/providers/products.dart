@@ -199,7 +199,7 @@ class Products with ChangeNotifier {
           price: prodData['price'],
           imageUrl: prodData['imageUrl'],
           description: prodData['description'],
-          isFavorite: prodData['isFavorite'],
+          isFavorite: prodData['isFavorite'] ?? false,
         ));
       });
       _items = loadedProducts;
@@ -262,7 +262,16 @@ class Products with ChangeNotifier {
   }
 
   void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
+    final url = Uri.https(serverUrl, '/products/$id.json');
+    final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
+    Product? existingProduct = _items[existingProductIndex];
+    _items.removeAt(existingProductIndex);
+    http.delete(url).then((_) {
+      existingProduct = null;
+    }).catchError((_) {
+      _items.insert(existingProductIndex, existingProduct!);
+      notifyListeners();
+    });
     notifyListeners();
   }
 
