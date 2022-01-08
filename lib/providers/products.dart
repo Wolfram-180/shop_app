@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'product.dart';
 
 class Products with ChangeNotifier {
+  String serverUrl =
+      'shop-app-47fff-default-rtdb.europe-west1.firebasedatabase.app';
   late List<Product> _items = [
     // Product(
     //   id: 'p3',
@@ -181,8 +183,11 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    final url = Uri.parse(
-        'shop-app-47fff-default-rtdb.europe-west1.firebasedatabase.app/products.json');
+    // both parse and https - works
+    //final url = Uri.parse('https://$serverUrl/products.json');
+    // OR
+    // https - looks more elegant
+    final url = Uri.https(serverUrl, '/products.json');
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
