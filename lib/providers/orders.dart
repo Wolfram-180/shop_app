@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../utils/constants.dart';
 import 'cart.dart';
-import 'products.dart';
 
 class OrderItem {
   final String id;
@@ -21,13 +21,17 @@ class OrderItem {
 
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
+  final String authToken;
+
+  Orders(this.authToken, this._orders);
 
   List<OrderItem> get orders {
     return [..._orders];
   }
 
   Future<void> fetchAndSetOrders() async {
-    final url = Uri.https(Products.serverUrl, '/orders.json');
+    //final url = Uri.https(Products.serverUrl, '/orders.json');
+    final url = Uri.parse('https://$serverUrl/orders.json?auth=$authToken');
     try {
       final response = await http.get(url);
       final List<OrderItem> loadedOrders = [];
@@ -62,7 +66,8 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
-    final url = Uri.https(Products.serverUrl, '/orders.json');
+    //final url = Uri.https(Products.serverUrl, '/orders.json');
+    final url = Uri.parse('https://$serverUrl/orders.json?auth=$authToken');
     final timestamp = DateTime.now();
     try {
       final response = await http.post(

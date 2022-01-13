@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/providers/products.dart';
+
+import '../utils/constants.dart';
 
 class Product with ChangeNotifier {
   final String id;
@@ -25,12 +26,13 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String authToken) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
-
-    final url = Uri.https(Products.serverUrl, '/products/$id.json');
+    //final url = Uri.https(Products.serverUrl, '/products/$id.json');
+    final url =
+        Uri.parse('https://$serverUrl/products/$id.json?auth=$authToken');
     try {
       final response = await http.patch(
         url,

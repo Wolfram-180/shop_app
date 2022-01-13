@@ -168,6 +168,10 @@ class Products with ChangeNotifier {
 
   //var _showFavoritesOnly = false;
 
+  final String authToken;
+
+  Products(this.authToken, this._items);
+
   List<Product> get items {
     // if (_showFavoritesOnly) {
     //   return _items.where((prodItem) => prodItem.isFavorite).toList();
@@ -185,14 +189,16 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSetProducts() async {
     // both parse and https - works
-    //final url = Uri.parse('https://$serverUrl/products.json');
+    final url = Uri.parse('https://$serverUrl/products.json?auth=$authToken');
     // OR
-    // https - looks more elegant
-    final url = Uri.https(serverUrl, '/products.json');
+    // https - looks more elegant - BUT ISSUE WITH authToken - NOT WORKING
+    // USING Uri.parse instead of Uri.https
+    // final url = Uri.https(serverUrl, '/products.json?auth=$authToken');
+
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      if (extractedData == null) {
+      if (extractedData == null || extractedData == 'not found') {
         return;
       }
       final List<Product> loadedProducts = [];
@@ -214,7 +220,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    final url = Uri.https(serverUrl, '/products.json');
+    //final url = Uri.https(serverUrl, '/products.json');
+    final url = Uri.parse('https://$serverUrl/products.json?auth=$authToken');
     try {
       final response = await http.post(
         url,
@@ -247,7 +254,9 @@ class Products with ChangeNotifier {
   Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
-      final url = Uri.https(serverUrl, '/products/$id.json');
+      //final url = Uri.https(serverUrl, '/products/$id.json');
+      final url =
+          Uri.parse('https://$serverUrl/products/$id.json?auth=$authToken');
       try {
         await http.patch(url,
             body: json.encode({
@@ -266,7 +275,9 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    final url = Uri.https(serverUrl, '/products/$id.json');
+    //final url = Uri.https(serverUrl, '/products/$id.json');
+    final url =
+        Uri.parse('https://$serverUrl/products/$id.json?auth=$authToken');
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     Product? existingProduct = _items[existingProductIndex];
 

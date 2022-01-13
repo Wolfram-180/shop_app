@@ -12,7 +12,7 @@ class Auth with ChangeNotifier {
 // Айрат добрый день. Токен конечно же должен лежать (и лежит) в отдельном файле который в гитигноре,
 // сюда принудительно положил чтобы была возможность теста приложения, позже уберу
 
-  late DateTime _expiryDate;
+  DateTime _userTokenExpiryDate = DateTime(1999, 1, 1);
   late String _userId;
   String _token = '';
 
@@ -21,8 +21,8 @@ class Auth with ChangeNotifier {
   }
 
   String get token {
-    if (_expiryDate != null &&
-        _expiryDate.isAfter(DateTime.now()) &&
+    if (_userTokenExpiryDate != null &&
+        _userTokenExpiryDate.isAfter(DateTime.now()) &&
         _token != '') {
       return _token;
     } else
@@ -50,13 +50,8 @@ class Auth with ChangeNotifier {
       }
       _token = responseData['idToken'];
       _userId = responseData['localId'];
-      _expiryDate = DateTime.now().add(
-        Duration(
-          seconds: int.parse(
-            responseData['expiresIn'],
-          ),
-        ),
-      );
+      _userTokenExpiryDate = DateTime.now()
+          .add(Duration(seconds: int.parse(responseData['expiresIn'])));
       notifyListeners();
     } catch (error) {
       rethrow;
