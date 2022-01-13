@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier {
-  String _token =
+  String _DBtoken =
       'AIzaSyCUI9HipHoYmuTzjtaKp6t5Ipl-3y--RqQ'; // fbTokenKeyInGitignore.fbToken;
 
 // Айрат добрый день. Токен конечно же должен лежать (и лежит) в отдельном файле который в гитигноре,
@@ -14,11 +14,25 @@ class Auth with ChangeNotifier {
 
   late DateTime _expiryDate;
   late String _userId;
+  String _token = '';
+
+  bool get isAuth {
+    return token != '';
+  }
+
+  String get token {
+    if (_expiryDate != null &&
+        _expiryDate.isAfter(DateTime.now()) &&
+        _token != '') {
+      return _token;
+    } else
+      return '';
+  }
 
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
     final url = Uri.parse(
-        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=$_token');
+        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=$_DBtoken');
     try {
       final response = await http.post(
         url,
@@ -34,6 +48,16 @@ class Auth with ChangeNotifier {
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
+      _token = responseData['idToken'];
+      _userId = responseData['localId'];
+      _expiryDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(
+            responseData['expiresIn'],
+          ),
+        ),
+      );
+      notifyListeners();
     } catch (error) {
       rethrow;
     }
