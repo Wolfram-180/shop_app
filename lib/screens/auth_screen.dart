@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/http_exception.dart';
 import '../providers/auth.dart';
 
 enum AuthMode { Signup, Login }
@@ -103,6 +104,23 @@ class _AuthCardState extends State<AuthCard> {
   var _isLoading = false;
   final _passwordController = TextEditingController();
 
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('An error occured'),
+        content: Text(message),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Ok'))
+        ],
+      ),
+    );
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
@@ -112,18 +130,46 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = true;
     });
-    if (_authMode == AuthMode.Login) {
-      // Log user in
-      await Provider.of<Auth>(context, listen: false).login(
-        _authData['email']!,
-        _authData['password']!,
-      );
-    } else {
-      // Sign user up
-      await Provider.of<Auth>(context, listen: false).signup(
-        _authData['email']!,
-        _authData['password']!,
-      );
+    try {
+      if (_authMode == AuthMode.Login) {
+        // Log user in
+        await Provider.of<Auth>(context, listen: false).login(
+          _authData['email']!,
+          _authData['password']!,
+        );
+      } else {
+        // Sign user up
+        await Provider.of<Auth>(context, listen: false).signup(
+          _authData['email']!,
+          _authData['password']!,
+        );
+      }
+    } on HttpException catch (error) {
+      var errorMessage = 'Authentication failed: ';
+      if (error.toString().contains('EMAIL_EXISTS')) {
+        errorMessage += 'EMAIL_EXISTS';
+      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
+        errorMessage += 'EMAIL_NOT_FOUND';
+      } else if (error.toString().contains('USER_NOT_FOUND')) {
+        errorMessage += 'USER_NOT_FOUND';
+      } else if (error.toString().contains('USER_DISABLED')) {
+        errorMessage += 'USER_DISABLED';
+      } else if (error.toString().contains('INVALID_PASSWORD')) {
+        errorMessage += 'INVALID_PASSWORD';
+      } else if (error.toString().contains('TOKEN_EXPIRED')) {
+        errorMessage += 'TOKEN_EXPIRED';
+      } else if (error.toString().contains('OPERATION_NOT_ALLOWED')) {
+        errorMessage += 'OPERATION_NOT_ALLOWED';
+      } else if (error.toString().contains('TOO_MANY_ATTEMPTS_TRY_LATER')) {
+        errorMessage += 'TOO_MANY_ATTEMPTS_TRY_LATER';
+      } else if (error.toString().contains('WEAK_PASSWORD')) {
+        errorMessage += 'WEAK_PASSWORD';
+      }
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      const errorMessage =
+          'Could not authenticate you, please try again later.';
+      _showErrorDialog(errorMessage);
     }
     setState(() {
       _isLoading = false;

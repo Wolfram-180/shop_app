@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Мой магаз',
+        title: 'MyShop',
         theme: ThemeData(
           colorScheme:
               ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(
