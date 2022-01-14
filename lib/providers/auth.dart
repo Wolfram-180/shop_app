@@ -3,14 +3,11 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
+import '../keys/firebase_token.dart';
 import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier {
-  String _DBtoken =
-      'AIzaSyCUI9HipHoYmuTzjtaKp6t5Ipl-3y--RqQ'; // fbTokenKeyInGitignore.fbToken;
-
-// Айрат добрый день. Токен конечно же должен лежать (и лежит) в отдельном файле который в гитигноре,
-// сюда принудительно положил чтобы была возможность теста приложения, позже уберу
+  String _DBtoken = fbToken;
 
   DateTime _userTokenExpiryDate = DateTime(1999, 1, 1);
   late String _userId;

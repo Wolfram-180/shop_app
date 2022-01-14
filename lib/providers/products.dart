@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/http_exception.dart';
+import '../utils/constants.dart';
 import 'product.dart';
 
 class Products with ChangeNotifier {
-  static String serverUrl =
-      'shop-app-47fff-default-rtdb.europe-west1.firebasedatabase.app';
+  //static String serverUrl =
+  //    'shop-app-47fff-default-rtdb.europe-west1.firebasedatabase.app';
   late List<Product> _items = [
     // Product(
     //   id: 'p3',
