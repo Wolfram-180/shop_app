@@ -189,9 +189,13 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  Future<void> fetchAndSetProducts() async {
-    // both parse and https - works
-    Uri url = Uri.parse('https://$serverUrl/products.json?auth=$authToken');
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser == true ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    Uri url = Uri.parse(
+      'https://$serverUrl/products.json?auth=$authToken&$filterString',
+      //'https://$serverUrl/products.json?auth=$authToken',
+    );
     // OR
     // https - looks more elegant - BUT ISSUE WITH authToken - NOT WORKING
     // USING Uri.parse instead of Uri.https
@@ -247,6 +251,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'price': product.price,
+            'creatorId': userId,
           },
         ),
       );
@@ -279,7 +284,7 @@ class Products with ChangeNotifier {
               'description': newProduct.description,
               'imageUrl': newProduct.imageUrl,
               'price': newProduct.price,
-              //'isFavorite': newProduct.isFavorite, // not edited here, no need to re-set
+              'creatorId': userId,
             }));
         _items[prodIndex] = newProduct;
         notifyListeners();
