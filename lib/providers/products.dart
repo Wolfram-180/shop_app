@@ -170,8 +170,9 @@ class Products with ChangeNotifier {
   //var _showFavoritesOnly = false;
 
   final String authToken;
+  final String userId;
 
-  Products(this.authToken, this._items);
+  Products(this.authToken, this.userId, this._items);
 
   List<Product> get items {
     // if (_showFavoritesOnly) {
@@ -190,7 +191,7 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSetProducts() async {
     // both parse and https - works
-    final url = Uri.parse('https://$serverUrl/products.json?auth=$authToken');
+    Uri url = Uri.parse('https://$serverUrl/products.json?auth=$authToken');
     // OR
     // https - looks more elegant - BUT ISSUE WITH authToken - NOT WORKING
     // USING Uri.parse instead of Uri.https
@@ -202,17 +203,31 @@ class Products with ChangeNotifier {
       if (extractedData == null || extractedData == 'not found') {
         return;
       }
+
+      url = Uri.parse(
+          'https://$serverUrl/userFavorites/$userId.json?auth=$authToken');
+      final favoriteResponse = await http.get(url);
+      final favoriteData = json.decode(favoriteResponse.body);
+
       final List<Product> loadedProducts = [];
-      extractedData.forEach((prodId, prodData) {
-        loadedProducts.add(Product(
-          id: prodId,
-          title: prodData['title'],
-          price: prodData['price'],
-          imageUrl: prodData['imageUrl'],
-          description: prodData['description'],
-          isFavorite: prodData['isFavorite'] ?? false,
-        ));
-      });
+      extractedData.forEach(
+        (prodId, prodData) {
+          loadedProducts.add(
+            Product(
+              id: prodId,
+              title: prodData['title'],
+              price: prodData['price'],
+              imageUrl: prodData['imageUrl'],
+              description: prodData['description'],
+              isFavorite: favoriteData is Null
+                  ? false
+                  : (favoriteData[prodId] is Null
+                      ? false
+                      : favoriteData[prodId]),
+            ),
+          );
+        },
+      );
       _items = loadedProducts;
       notifyListeners();
     } catch (error) {
@@ -232,7 +247,6 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'price': product.price,
-            'isFavorite': product.isFavorite,
           },
         ),
       );
