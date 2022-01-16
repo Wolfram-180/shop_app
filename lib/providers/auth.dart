@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../keys/firebase_token.dart';
 import '../models/http_exception.dart';
@@ -57,6 +58,15 @@ class Auth with ChangeNotifier {
           .add(Duration(seconds: int.parse(responseData['expiresIn'])));
       _autoLogout();
       notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode(
+        {
+          'token': _token,
+          'userId': _userId,
+          'expiryDate': _userTokenExpiryDate.toIso8601String(),
+        },
+      );
+      prefs.setString('userData', userData);
     } catch (error) {
       rethrow;
     }
@@ -70,12 +80,41 @@ class Auth with ChangeNotifier {
     return _authenticate(email, password, 'signInWithPassword');
   }
 
-  void logout() {
+  Future<bool> tryAutoLogin() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (!prefs.containsKey('userData')) {
+        return false;
+      }
+      final extractedUserData =
+          json.decode(prefs.getString('userData').toString())
+              as Map<String, dynamic>;
+      final expiryDate =
+          DateTime.parse(extractedUserData['expiryDate'] as String);
+      if (expiryDate.isBefore(DateTime.now())) {
+        return false;
+      } else {
+        _token = extractedUserData['token'] as String;
+        _userId = extractedUserData['userId'] as String;
+        _userTokenExpiryDate = expiryDate;
+        notifyListeners();
+        _autoLogout();
+        return true;
+      }
+    } catch (error) {
+      print(error);
+      return false;
+    }
+  }
+
+  Future<void> logout() async {
     _token = '';
     _userId = '';
     _userTokenExpiryDate = DateTime(1999, 1, 1);
     _authTimer.cancel();
     notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('userData');
   }
 
   void _autoLogout() {
@@ -83,6 +122,5 @@ class Auth with ChangeNotifier {
     final timeToExpiry =
         _userTokenExpiryDate.difference(DateTime.now()).inSeconds;
     _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
-    //notifyListeners();
   }
 }
