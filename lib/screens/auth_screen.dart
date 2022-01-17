@@ -106,6 +106,7 @@ class _AuthCardState extends State<AuthCard>
   final _passwordController = TextEditingController();
   late AnimationController _controller;
   late Animation<Size> _heightAnimation;
+  late Animation<double> _opacityAnimation;
 
   @override
   void initState() {
@@ -125,7 +126,13 @@ class _AuthCardState extends State<AuthCard>
         curve: Curves.linear,
       ),
     );
-    _heightAnimation.addListener(() => setState(() {}));
+    //_heightAnimation.addListener(() => setState(() {}));
+    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeIn,
+      ),
+    );
   }
 
   @override
@@ -268,8 +275,10 @@ class _AuthCardState extends State<AuthCard>
                     _authData['password'] = (value ?? '');
                   },
                 ),
-                if (_authMode == AuthMode.Signup)
-                  TextFormField(
+                //if (_authMode == AuthMode.Signup)
+                FadeTransition(
+                  opacity: _opacityAnimation,
+                  child: TextFormField(
                     enabled: _authMode == AuthMode.Signup,
                     decoration: InputDecoration(labelText: 'Confirm Password'),
                     obscureText: true,
@@ -281,6 +290,7 @@ class _AuthCardState extends State<AuthCard>
                           }
                         : null,
                   ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
