@@ -21,6 +21,10 @@ class Cart with ChangeNotifier {
     return {..._items};
   }
 
+  void notifyAllCall() {
+    notifyListeners();
+  }
+
   int get itemCount {
     return _items.length;
   }
