@@ -1,12 +1,7 @@
 Shopping app with Provider state management
 
-Logins:
+Login:
 
-fun staff:
-test1@test.com
-test1test1
-
-electronics:
 task6@iu.org
 task6task6
 
