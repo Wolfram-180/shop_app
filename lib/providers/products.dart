@@ -220,7 +220,7 @@ class Products with ChangeNotifier {
             Product(
               id: prodId,
               title: prodData['title'],
-              price: prodData['price'],
+              price: prodData['price'].toDouble(),
               imageUrl: prodData['imageUrl'],
               description: prodData['description'],
               isFavorite: favoriteData is Null
