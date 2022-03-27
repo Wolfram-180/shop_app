@@ -8,7 +8,7 @@ Functionality:
 - view Orders early done
 
 App test login:\
-task6@iu.org\
+task6@iu.org
 
 Password:\
 task6task6
