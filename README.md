@@ -1,6 +1,7 @@
 Shopping app with Provider state management
 
 Functionality:
+- Firestore as backend
 - register or log in
 - add / edit products in shop
 - add products to cart and checkout
