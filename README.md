@@ -1,12 +1,12 @@
 Shopping app with Provider state management
 
 Functionality:
-- Firestore as backend
-- register or log in
-- add / edit products in shop
-- add products to cart and checkout
-- filter by Favorites
-- view Orders early done
+•	Google Firestore as backend
+•	User can register or log in
+•	User can add / edit products in shop
+•	User can add products to cart and checkout
+•	Products filter by Favorites
+•	User can view Orders early done
 
 App test login:\
 task6@iu.org
